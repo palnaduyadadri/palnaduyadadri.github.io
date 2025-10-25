@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Palnadu Yadadri Sri Lakshmi Narasimha Swamy Vaari Devastanam</title>
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #faf6f1;
+        color: #333;
+        line-height: 1.6;
+    }
+
+    /* Centered container */
+    .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+    }
+
+    h2 {
+        color: #8B4513;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    html {
+    scroll-behavior: smooth;
+    }
+
+    section {
+      padding: 60px 0;
+    }
+
+    /* Header Message */
+    .header-message {
+      background: linear-gradient(135deg, #6b3a1a, #8B4513);
+      color: white;
+      text-align: center;
+      padding: 10px 20px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1100;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-message h1 {
+      font-size: 1.2rem;
+      color: white;
+      margin-bottom: 5px;
+    }
+
+    .header-message p {
+      font-size: 0.9rem;
+      margin-bottom: 0;
+      opacity: 0.9;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(135deg, #8B4513, #A0522D);
+      padding: 15px 20px;
+      color: white;
+      position: fixed;
+      width: 100%;
+      top: 80px;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      font-weight: bold;
+      font-size: 1.2rem;
+      white-space: nowrap;
+    }
+
+    .nav-menu {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-menu li a {
+      color: white;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+
+    .nav-menu li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .hamburger {
+      display: none;
+      cursor: pointer;
+      font-size: 1.5rem;
+      background: none;
+      border: none;
+      color: white;
+    }
+
+    /* Hero Section */
+    .hero {
+      position: relative;
+      height: 80vh;
+      overflow: hidden;
+      margin-top: 140px;
+    }
+
+    .slideshow-container {
+      position: relative;
+      height: 100%;
+    }
+
+    .slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .slide.fade {
+      opacity: 1;
+    }
+
+    .slide-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .hero-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: white;
+      text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.7);
+      width: 90%;
+      max-width: 800px;
+    }
+
+    .hero-text h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: white;
+    }
+
+    /* About Section */
+    #about {
+      background: url('styles/img/temple-background.jpg') center/cover fixed;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    #about::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    ::-webkit-scrollbar {
+    width: 8px;
+    }
+    ::-webkit-scrollbar-thumb {
+    background-color: #A0522D;
+    border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+    background-color: #8B4513;
+    }
+
+    #about .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    #about h2 {
+      color: #f0d9b5;
+      margin-bottom: 1rem;
+    }
+
+    /* Videos Section */
+    #videos {
+      background: white;
+      text-align: center;
+    }
+
+    .tab-buttons {
+      text-align: center;
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .tab-button {
+      padding: 10px 20px;
+      border: none;
+      background: #A0522D;
+      color: white;
+      cursor: pointer;
+      margin: 5px;
+      border-radius: 5px;
+      transition: background 0.3s;
+    }
+
+    .tab-button:hover {
+      background: #8B4513;
+    }
+
+    .tab-button.active {
+      background: #8B4513;
+    }
+
+    .tab-content {
+      display: none;
+      text-align: center;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+    /* Add soft transitions for hover effects */
+    a, button {
+        transition: all 0.3s ease;
+    }
+
+    /* YouTube Shorts Player */
+    .shorts-player-container {
+      background: #f9f5f0;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 30px auto;
+      max-width: 800px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .player-title {
+      font-size: 1.3rem;
+      color: #8B4513;
+      font-weight: bold;
+    }
+
+    .player-controls {
+      display: flex;
+      gap: 10px;
+    }
+
+    .control-btn {
+      background: #A0522D;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .control-btn:hover {
+      background: #8B4513;
+    }
+
+    .control-btn:disabled {
+      background: #cccccc;
+      cursor: not-allowed;
+    }
+
+    .shorts-player {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .shorts-player iframe {
+      width: 100%;
+      height: 710px;
+      border: none;
+    }
+
+    .player-info {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .video-counter {
+      font-size: 0.9rem;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .video-gallery {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      padding: 20px 0;
+    }
+
+    .video-item {
+      width: 100%;
+      max-width: 360px;
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-item iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    /* Gallery Section */
+    #gallery {
+      background: #f5f0e8;
+      text-align: center;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 15px;
+      padding: 20px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.03);
+    }
+
+    /* Lightbox */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.9);
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+    }
+
+    .lightbox img {
+      max-width: 90%;
+      border-radius: 10px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    /* Contact Section */
+    #contact {
+      background: white;
+      text-align: center;
+    }
+
+    .map-container {
+      margin-top: 20px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .map-container iframe {
+      display: block;
+      width: 100%;
+    }
+
+    footer {
+        background: #8B4513;
+        color: white;
+        text-align: center;
+        padding: 20px;
+        font-size: 0.9rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .header-message {
+        padding: 8px 15px;
+      }
+      
+      .header-message h1 {
+        font-size: 1rem;
+      }
+      
+      .header-message p {
+        font-size: 0.8rem;
+      }
+      
+      .navbar {
+        top: 70px;
+        padding: 10px 15px;
+      }
+      
+      .hero {
+        margin-top: 120px;
+        height: 60vh;
+      }
+
+      .hamburger {
+        display: block;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 120px;
+        right: -100%;
+        flex-direction: column;
+        background: linear-gradient(135deg, #8B4513, #A0522D);
+        width: 70%;
+        height: calc(100vh - 120px);
+        text-align: center;
+        padding-top: 40px;
+        transition: right 0.3s;
+      }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .nav-menu li {
+        margin: 15px 0;
+      }
+
+      .nav-menu li a {
+        font-size: 1.2rem;
+        padding: 15px 0;
+        display: block;
+      }
+
+      .hero-text h1 {
+        font-size: 1.8rem;
+      }
+
+      section {
+        padding: 40px 0;
+      }
+      
+      .shorts-player iframe {
+        height: 600px;
+      }
+      
+      .player-header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .header-message h1 {
+        font-size: 0.9rem;
+      }
+      
+      .header-message p {
+        font-size: 0.75rem;
+      }
+      
+      .logo {
+        font-size: 1rem;
+      }
+
+      .hero-text h1 {
+        font-size: 1.5rem;
+      }
+
+      .tab-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .tab-button {
+        width: 80%;
+      }
+
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .shorts-player iframe {
+        height: 500px;
+      }
+      
+      .player-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header Message -->
+  <div class="header-message">
+    <h1>Welcome to Palnadu Yadadri Sri Lakshmi Narasimha Swamy Vaari Devastanam</h1>
+    <p>Located at Jangamaheswarapuram, Gurazala, Palnadu District, Andhra Pradesh</p>
+  </div>
+
+  <header>
+    <nav class="navbar">
+      <div class="logo">Sri Lakshmi Narasimha Swamy Temple</div>
+      <div class="hamburger" id="hamburger">&#9776;</div>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#gallery">Gallery</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="slideshow-container">
+      <div class="slide fade">
+        <img src="styles/img/lord-narasimha.jpg" alt="Lord Narasimha Swamy" class="slide-image" />
+      </div>
+      <div class="slide fade">
+        <img src="styles/img/lord-venkateswara.jpg" alt="Lord Venkateswara" class="slide-image" />
+      </div>
+      <div class="slide fade">
+        <img src="styles/img/lord-vishnu.jpg" alt="Temple View" class="slide-image" />
+      </div>
+    </div>
+    <div class="hero-text">
+      <h1>Experience Divine Blessings</h1>
+      <p>Visit our sacred temple and feel the spiritual energy</p>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about">
+    <div class="container">
+      <h2>About Temple</h2>
+      <p>
+        Palnadu Yadadri Sri Lakshmi Narasimha Swamy Vaari Devastanam is a sacred temple dedicated
+        to Lord Narasimha Swamy, located in the serene village of Jangamaheswarapuram, Gurazala.
+        The temple attracts devotees from across Andhra Pradesh and Telangana, known for its divine
+        energy and traditional architecture inspired by Yadadri.
+      </p>
+    </div>
+  </section>
+
+  <!-- Videos Section -->
+  <section id="videos">
+    <div class="container">
+      <h2>Temple Videos</h2>
+      <div class="tab-buttons">
+        <button class="tab-button active" onclick="openTab('videos', event)">Videos</button>
+        <button class="tab-button" onclick="openTab('shorts', event)">YouTube Shorts</button>
+        <button class="tab-button" onclick="openTab('instagram', event)">Instagram</button>
+      </div>
+
+      <div id="videos-content" class="tab-content active">
+        <div class="video-gallery">
+          <div class="video-item" data-video="https://youtu.be/DLZf1tGvHT0"></div>
+          <div class="video-item" data-video="https://youtu.be/XI_jFFfUacQ"></div>
+        </div>
+      </div>
+
+      <div id="shorts-content" class="tab-content">
+        <!-- YouTube Shorts Player -->
+        <div class="shorts-player-container">
+          <div class="player-header">
+            <div class="player-title">YouTube Shorts Player</div>
+            <div class="player-controls">
+              <button id="prev-btn" class="control-btn">⏮ Previous</button>
+              <button id="play-btn" class="control-btn">▶ Play All</button>
+              <button id="pause-btn" class="control-btn" disabled>⏸ Pause</button>
+              <button id="next-btn" class="control-btn">Next ⏭</button>
+            </div>
+          </div>
+          
+          <div class="shorts-player">
+            <iframe id="shorts-player" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen
+                allow="autoplay; encrypted-media; picture-in-picture; gyroscope; accelerometer"></iframe>
+          </div>
+          
+          <div class="player-info">
+            <div id="current-video-title">Select a video to play</div>
+            <div class="video-counter">
+              <span id="current-video-number">0</span> of <span id="total-videos">0</span> videos
+            </div>
+          </div>
+        </div>
+        
+        <div class="video-gallery">
+          <div class="video-item" data-video="https://www.youtube.com/shorts/Le_ImO8ltMs"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/wMOSYUzzvcM"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/xKe4XijAgWQ"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/jBc9uof4vUc"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/-nAvWjf2KDY"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/8maS4ttHSmQ"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/jwRzqt-8S2Y"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/RjLhU1TslaE"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/7ISGnR-2C2U"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/c6NQNh3UqQM"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/Lb52F1cHm4o"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/kV9cLCToh9g"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/lUmxLZlU1JQ"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/6bV9L_3Ar8E"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/o7Vfxpe4YrA"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/MEiOoQS9XKo"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/_tpYsjKt2U4"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/0C37Desg3RI"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/uU83lK6pAVU"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/xsUf99OcH_s"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/1ypUnCWj260"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/V8X0njFtQLE"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/Cdct8aMsAGw"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/hElxt46uVTk"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/k1qZN4csYBY"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/2nKqs5xcMDw"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/yfs_92CHspE"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/2VRfDQ42cBw"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/oQrBHdTTzC4"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/e9DyWtNevFs"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/wUqlP4IqR-Q"></div>
+          <div class="video-item" data-video="https://www.youtube.com/shorts/aFsQs_X_lzM"></div>
+        </div>
+      </div>
+
+      <div id="instagram-content" class="tab-content">
+        <div class="video-item">
+          <iframe src="https://www.youtube.com/shorts/Le_ImO8ltMs" frameborder="0" scrolling="no" allowtransparency="true"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gallery Section -->
+  <section id="gallery">
+    <div class="container">
+      <h2>Temple Gallery</h2>
+      <div class="gallery-grid">
+        <img src="styles/img/temple1.jpg" alt="Temple 1" onclick="openLightbox(this)" />
+        <img src="styles/img/temple2.jpg" alt="Temple 2" onclick="openLightbox(this)" />
+        <img src="styles/img/temple3.jpg" alt="Temple 3" onclick="openLightbox(this)" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <h2>Contact & Location</h2>
+      <p>
+        <strong>Address:</strong> Palnadu Yadadri Sri Lakshmi Narasimha Swamy Vaari Devastanam,<br />
+        Jangamaheswarapuram, Gurazala, Palnadu District, Andhra Pradesh, India - 522415
+      </p>
+
+      <div class="map-container">
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d61474.09712590889!2d79.4577!3d16.5803!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x13eac904fdb90a28!2sPalnadu%20Yadadri%20Sri%20Lakshmi%20Narasimha%20Swamy%20vaari%20Devastanam!5e0!3m2!1sen!2sin!4v1698263223319!5m2!1sen!2sin"
+          width="100%"
+          height="400"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+        ></iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="Lightbox" />
+  </div>
+
+  <footer>
+    <p>© 2025 Palnadu Yadadri Sri Lakshmi Narasimha Swamy Vaari Devastanam | All Rights Reserved</p>
+  </footer>
+
+  <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const videoIds = ["Le_ImO8ltMs", "wMOSYUzzvcM"]; // your video IDs
+            videoIds.forEach(videoId => {
+                const thumb = new Image();
+                thumb.src = `https://i1.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+                thumb.onerror = () => console.warn(`Thumbnail not found for ${videoId}`);
+                document.body.appendChild(thumb);
+            });
+      });
+      
+      // Mobile menu toggle
+      const hamburger = document.getElementById('hamburger');
+      const navMenu = document.getElementById('navMenu');
+      
+      hamburger.addEventListener('click', () => {
+        navMenu.classList.toggle('active');
+      });
+      
+      // Close mobile menu when clicking on a link
+      document.querySelectorAll('.nav-menu a').forEach(link => {
+        link.addEventListener('click', () => {
+          navMenu.classList.remove('active');
+        });
+      });
+      
+      // Slideshow functionality
+      let slideIndex = 0;
+      const slides = document.querySelectorAll('.slide');
+      
+      function showSlides() {
+        slides.forEach(slide => {
+          slide.classList.remove('fade');
+        });
+        
+        slideIndex++;
+        if (slideIndex > slides.length) {
+          slideIndex = 1;
+        }
+        
+        if (slides[slideIndex - 1]) {
+          slides[slideIndex - 1].classList.add('fade');
+        }
+        
+        setTimeout(showSlides, 4000);
+      }
+      
+      showSlides();
+      
+      // YouTube video embedding
+      function getYouTubeId(url) {
+        const regExp = /(?:youtube\.com\/.*v=|youtu\.be\/)([^#&?]+)/;
+        const match = url.match(regExp);
+        return match ? match[1] : null;
+      }
+      
+      function getShortsId(url) {
+        const regExp = /(?:youtube\.com\/shorts\/)([^#&?]+)/;
+        const match = url.match(regExp);
+        return match ? match[1] : null;
+      }
+      
+      document.querySelectorAll('.video-item').forEach((div) => {
+        if (div.dataset.video) {
+          let id;
+          if (div.dataset.video.includes('/shorts/')) {
+            id = getShortsId(div.dataset.video);
+          } else {
+            id = getYouTubeId(div.dataset.video);
+          }
+          
+          if (id) {
+            div.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
+          }
+        }
+      });
+
+      // Lightbox
+        function openLightbox(img) {
+            document.getElementById('lightbox').classList.add('active');
+            document.getElementById('lightbox-img').src = img.src;
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        // Tabs (Videos/Shorts/Instagram)
+        function openTab(tab, evt) {
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+            document.getElementById(tab + '-content').classList.add('active');
+            evt.currentTarget.classList.add('active');
+        }
+      
+      // YouTube Shorts Player functionality
+      const shortsPlayer = document.getElementById('shorts-player');
+      const playBtn = document.getElementById('play-btn');
+      const pauseBtn = document.getElementById('pause-btn');
+      const prevBtn = document.getElementById('prev-btn');
+      const nextBtn = document.getElementById('next-btn');
+      const currentVideoTitle = document.getElementById('current-video-title');
+      const currentVideoNumber = document.getElementById('current-video-number');
+      const totalVideos = document.getElementById('total-videos');
+      
+      // Extract all YouTube Shorts URLs
+      const shortsUrls = [
+        'https://www.youtube.com/shorts/Le_ImO8ltMs',
+        'https://www.youtube.com/shorts/wMOSYUzzvcM',
+        'https://www.youtube.com/shorts/xKe4XijAgWQ',
+        'https://www.youtube.com/shorts/jBc9uof4vUc',
+        'https://www.youtube.com/shorts/-nAvWjf2KDY',
+        'https://www.youtube.com/shorts/8maS4ttHSmQ',
+        'https://www.youtube.com/shorts/jwRzqt-8S2Y',
+        'https://www.youtube.com/shorts/RjLhU1TslaE',
+        'https://www.youtube.com/shorts/7ISGnR-2C2U',
+        'https://www.youtube.com/shorts/c6NQNh3UqQM',
+        'https://www.youtube.com/shorts/Lb52F1cHm4o',
+        'https://www.youtube.com/shorts/kV9cLCToh9g',
+        'https://www.youtube.com/shorts/lUmxLZlU1JQ',
+        'https://www.youtube.com/shorts/6bV9L_3Ar8E',
+        'https://www.youtube.com/shorts/o7Vfxpe4YrA',
+        'https://www.youtube.com/shorts/MEiOoQS9XKo',
+        'https://www.youtube.com/shorts/_tpYsjKt2U4',
+        'https://www.youtube.com/shorts/0C37Desg3RI',
+        'https://www.youtube.com/shorts/uU83lK6pAVU',
+        'https://www.youtube.com/shorts/xsUf99OcH_s',
+        'https://www.youtube.com/shorts/1ypUnCWj260',
+        'https://www.youtube.com/shorts/V8X0njFtQLE',
+        'https://www.youtube.com/shorts/Cdct8aMsAGw',
+        'https://www.youtube.com/shorts/hElxt46uVTk',
+        'https://www.youtube.com/shorts/k1qZN4csYBY',
+        'https://www.youtube.com/shorts/2nKqs5xcMDw',
+        'https://www.youtube.com/shorts/yfs_92CHspE',
+        'https://www.youtube.com/shorts/2VRfDQ42cBw',
+        'https://www.youtube.com/shorts/oQrBHdTTzC4',
+        'https://www.youtube.com/shorts/e9DyWtNevFs',
+        'https://www.youtube.com/shorts/wUqlP4IqR-Q',
+        'https://www.youtube.com/shorts/aFsQs_X_lzM'
+      ];
+      
+      let currentShortsIndex = 0;
+      let isPlaying = false;
+      let playerInterval;
+      
+      // Set total videos count
+      totalVideos.textContent = shortsUrls.length;
+      
+      // Function to convert shorts URL to embed URL
+      function getShortsEmbedUrl(url) {
+        const videoId = url.split('/shorts/')[1];
+        return `https://www.youtube.com/embed/${videoId}?autoplay=1`;
+      }
+      
+      // Function to play a specific short
+      function playShort(index) {
+        if (index >= 0 && index < shortsUrls.length) {
+          currentShortsIndex = index;
+          const embedUrl = getShortsEmbedUrl(shortsUrls[index]);
+          shortsPlayer.src = embedUrl;
+          currentVideoNumber.textContent = index + 1;
+          currentVideoTitle.textContent = `Short ${index + 1}`;
+        }
+      }
+      
+      // Function to play next short
+      function playNextShort() {
+        let nextIndex = (currentShortsIndex + 1) % shortsUrls.length;
+        playShort(nextIndex);
+      }
+      
+      // Function to play previous short
+      function playPrevShort() {
+        let prevIndex = (currentShortsIndex - 1 + shortsUrls.length) % shortsUrls.length;
+        playShort(prevIndex);
+      }
+      
+      // Function to start autoplay
+      function startAutoplay() {
+        if (!isPlaying) {
+          isPlaying = true;
+          playBtn.disabled = true;
+          pauseBtn.disabled = false;
+          
+          // Start with the first video if none is playing
+          if (currentShortsIndex === 0 && shortsPlayer.src === '') {
+            playShort(0);
+          }
+          
+          // Set interval to play next video after a delay
+          playerInterval = setInterval(playNextShort, 35000);
+        }
+      }
+      
+      // Function to pause autoplay
+      function pauseAutoplay() {
+        if (isPlaying) {
+          isPlaying = false;
+          playBtn.disabled = false;
+          pauseBtn.disabled = true;
+          clearInterval(playerInterval);
+        }
+      }
+      
+      // Event listeners for player controls
+      playBtn.addEventListener('click', startAutoplay);
+      pauseBtn.addEventListener('click', pauseAutoplay);
+      prevBtn.addEventListener('click', () => {
+        pauseAutoplay();
+        playPrevShort();
+      });
+      nextBtn.addEventListener('click', () => {
+        pauseAutoplay();
+        playNextShort();
+      });
+      
+      // Initialize the player with the first video
+      playShort(0);
+      
+      // Instagram embed script
+      const script = document.createElement('script');
+      script.src = 'https://www.instagram.com/embed.js';
+      script.async = true;
+      document.body.appendChild(script);
+    
+    // Lightbox functionality
+    window.openLightbox = function (img) {
+      document.getElementById('lightbox').classList.add('active');
+      document.getElementById('lightbox-img').src = img.src;
+    };
+    
+    window.closeLightbox = function () {
+      document.getElementById('lightbox').classList.remove('active');
+    };
+    
+    // Tab functionality
+    window.openTab = function (tabName, event) {
+      document.querySelectorAll('.tab-content').forEach((el) => el.classList.remove('active'));
+      document.querySelectorAll('.tab-button').forEach((btn) => btn.classList.remove('active'));
+      document.getElementById(`${tabName}-content`).classList.add('active');
+      event.currentTarget.classList.add('active');
+    };
+  </script>
+</body>
+</html>
