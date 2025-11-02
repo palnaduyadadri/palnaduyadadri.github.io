@@ -60,7 +60,7 @@
     section { padding: 90px 20px 60px; text-align: center; }
     h2 { color: var(--shiva-light); text-shadow: 0 0 15px #42a5f5; margin-bottom: 20px; }
 
-    /* === SHORTS CAROUSEL === */
+    /* === VIDEO CAROUSEL === */
     .carousel-container {
       position: relative;
       max-width: 900px;
@@ -74,13 +74,13 @@
       align-items: center;
     }
 
-    .shorts-wrapper {
+    .videos-wrapper {
       display: flex;
       width: 100%;
       height: 100%;
     }
 
-    .short {
+    .video-item {
       flex: 0 0 50%;
       padding: 0 10px;
       display: flex;
@@ -89,25 +89,13 @@
       transition: opacity 0.5s ease;
     }
 
-    .short .player-container {
+    .video-item video {
       width: 100%;
       height: 100%;
       border: none;
       border-radius: 10px;
       background: #000;
-      position: relative;
-    }
-
-    .ad-notice {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      background: rgba(0,0,0,0.7);
-      color: var(--gold);
-      padding: 5px 10px;
-      border-radius: 5px;
-      font-size: 12px;
-      z-index: 5;
+      object-fit: cover;
     }
 
     .nav-btn {
@@ -131,7 +119,7 @@
 
     @media (max-width: 768px) {
       .carousel-container { height: 400px; }
-      .short .player-container { height: 400px; }
+      .video-item video { height: 400px; }
     }
 
     .welcome { margin-top: 25px; font-size: 1.3em; color: var(--gold); animation: fadein 3s ease; }
@@ -239,17 +227,17 @@
 <section id="home">
   <div class="carousel-container">
     <button class="nav-btn prev-btn">&#10094;</button>
-    <div class="shorts-wrapper" id="shortsWrapper">
-      <!-- Two permanent short containers -->
-      <div class="short" id="short1">
-        <div class="player-container" id="player-1">
-          <div class="ad-notice">Ads support content creators</div>
-        </div>
+    <div class="videos-wrapper" id="videosWrapper">
+      <!-- Two permanent video containers -->
+      <div class="video-item" id="videoItem1">
+        <video id="video1" muted playsinline>
+          Your browser does not support the video tag.
+        </video>
       </div>
-      <div class="short" id="short2">
-        <div class="player-container" id="player-2">
-          <div class="ad-notice">Ads support content creators</div>
-        </div>
+      <div class="video-item" id="videoItem2">
+        <video id="video2" muted playsinline>
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
     <button class="nav-btn next-btn">&#10095;</button>
@@ -340,8 +328,6 @@
   &copy; 2025 Palnadu Yadadri Sri Lakshmi Narasimha Swamy Vari Temple, Gurazala. All Rights Reserved.
 </footer>
 
-<!-- === YOUTUBE API === -->
-<script src="https://www.youtube.com/iframe_api"></script>
 <script>
   // NAV MENU
   const menuToggle = document.getElementById("mobile-menu");
@@ -389,122 +375,102 @@
   lightboxClose.addEventListener('click', () => lightbox.classList.remove('active'));
   lightbox.addEventListener('click', e => { if(e.target===lightbox) lightbox.classList.remove('active'); });
 
-  // === YOUTUBE SHORTS CAROUSEL ===
-  const videoIds = [
-    "Le_ImO8ltMs", "wMOSYUzzvcM", "jBc9uof4vUc", "-nAvWjf2KDY",
-    "LPsyDZAyfdk", "57nd_F-4MRI", "JCFfCU_6w2Q", "J7kZuITRqy0", "tZw2dh2wiNE"
-    // Add your remaining 91 YouTube Short IDs here
+  // === LOCAL VIDEO CAROUSEL ===
+  const videoFiles = [
+    './img/VD1.mp4',
+    './img/VD2.mp4',
+    './img/VD3.mp4',
+    './img/VD4.mp4',
+    './img/VD5.mp4',
+    './img/VD6.mp4'
   ];
 
-  // Fill with placeholder IDs if you don't have 100 yet
-  while (videoIds.length < 100) {
-    videoIds.push("JCFfCU_6w2Q");
-  }
+  let currentVideoIndexes = [0, 1]; // Start with first two videos
+  let videos = [
+    document.getElementById('video1'),
+    document.getElementById('video2')
+  ];
 
-  let players = [];
-  let currentVideoIndexes = [0, 1];
-  let autoPlayTimer = null;
-
-  function onYouTubeIframeAPIReady() {
-    // Initialize both players with compliant settings
-    players[1] = new YT.Player(`player-1`, {
-      videoId: videoIds[currentVideoIndexes[0]],
-      playerVars: { 
-        autoplay: 1, 
-        controls: 1, 
-        mute: 1, 
-        rel: 0, 
-        modestbranding: 1,
-        playsinline: 1,
-        iv_load_policy: 3 // Reduces annotations only
-      },
-      events: { 
-        onStateChange: (e) => { 
-          if (e.data === YT.PlayerState.ENDED) {
-            loadNextVideo(0);
-          }
-        } 
-      }
-    });
-
-    players[2] = new YT.Player(`player-2`, {
-      videoId: videoIds[currentVideoIndexes[1]],
-      playerVars: { 
-        autoplay: 1, 
-        controls: 1, 
-        mute: 1, 
-        rel: 0, 
-        modestbranding: 1,
-        playsinline: 1,
-        iv_load_policy: 3 // Reduces annotations only
-      },
-      events: { 
-        onStateChange: (e) => { 
-          if (e.data === YT.PlayerState.ENDED) {
-            loadNextVideo(1);
-          }
-        } 
-      }
-    });
-  }
-
-  function loadNextVideo(position) {
-    currentVideoIndexes[position] = (currentVideoIndexes[position] + 2) % videoIds.length;
+  // Initialize videos
+  function initializeVideos() {
+    // Load first two videos
+    videos[0].src = videoFiles[currentVideoIndexes[0]];
+    videos[1].src = videoFiles[currentVideoIndexes[1]];
     
-    if (players[position + 1]) {
-      players[position + 1].loadVideoById({
-        videoId: videoIds[currentVideoIndexes[position]],
-        playerVars: {
-          autoplay: 1,
-          mute: 1,
-          rel: 0,
-          modestbranding: 1,
-          iv_load_policy: 3
-        }
+    // Set video properties for autoplay
+    videos.forEach(video => {
+      video.muted = true;
+      video.playsInline = true;
+      video.loop = false; // We'll handle looping manually
+      
+      // Add event listener for when video ends
+      video.addEventListener('ended', function() {
+        loadNextVideo(videos.indexOf(this));
       });
-    }
+    });
+    
+    // Start playing both videos
+    playAllVideos();
+  }
+
+  function playAllVideos() {
+    videos.forEach(video => {
+      video.play().catch(error => {
+        console.log('Auto-play prevented, user interaction required:', error);
+      });
+    });
+  }
+
+  function loadNextVideo(videoIndex) {
+    // Move to next video in sequence
+    currentVideoIndexes[videoIndex] = (currentVideoIndexes[videoIndex] + 1) % videoFiles.length;
+    
+    // Load and play the next video
+    videos[videoIndex].src = videoFiles[currentVideoIndexes[videoIndex]];
+    videos[videoIndex].play().catch(error => {
+      console.log('Auto-play prevented:', error);
+    });
   }
 
   function nextSet() {
+    // Manually advance both videos to next set
     loadNextVideo(0);
     loadNextVideo(1);
   }
 
   function prevSet() {
-    currentVideoIndexes[0] = (currentVideoIndexes[0] - 2 + videoIds.length) % videoIds.length;
-    currentVideoIndexes[1] = (currentVideoIndexes[1] - 2 + videoIds.length) % videoIds.length;
+    // Manually go back to previous set
+    currentVideoIndexes[0] = (currentVideoIndexes[0] - 1 + videoFiles.length) % videoFiles.length;
+    currentVideoIndexes[1] = (currentVideoIndexes[1] - 1 + videoFiles.length) % videoFiles.length;
     
-    if (players[1]) {
-      players[1].loadVideoById(videoIds[currentVideoIndexes[0]]);
-    }
-    if (players[2]) {
-      players[2].loadVideoById(videoIds[currentVideoIndexes[1]]);
-    }
+    // Load previous videos
+    videos[0].src = videoFiles[currentVideoIndexes[0]];
+    videos[1].src = videoFiles[currentVideoIndexes[1]];
+    
+    // Play both videos
+    playAllVideos();
   }
 
-  document.querySelector(".next-btn").addEventListener("click", () => {
-    clearInterval(autoPlayTimer);
-    nextSet();
-  });
-  
-  document.querySelector(".prev-btn").addEventListener("click", () => {
-    clearInterval(autoPlayTimer);
-    prevSet();
-  });
+  // Navigation button event listeners
+  document.querySelector(".next-btn").addEventListener("click", nextSet);
+  document.querySelector(".prev-btn").addEventListener("click", prevSet);
 
-  function startFallbackAutoplay() {
-    clearInterval(autoPlayTimer);
-    autoPlayTimer = setInterval(nextSet, 60000);
-  }
+  // Start the video carousel when page loads
+  window.addEventListener('load', initializeVideos);
 
-  startFallbackAutoplay();
-
-  const wrapper = document.getElementById("shortsWrapper");
-  wrapper.addEventListener('click', () => {
-    clearInterval(autoPlayTimer);
+  // Fallback: if videos don't auto-play, try again after user interaction
+  document.addEventListener('click', function() {
+    playAllVideos();
   });
 
-  wrapper.addEventListener('mouseleave', startFallbackAutoplay);
+  // Handle visibility change - pause when tab is not visible
+  document.addEventListener('visibilitychange', function() {
+    if (document.hidden) {
+      videos.forEach(video => video.pause());
+    } else {
+      playAllVideos();
+    }
+  });
 </script>
 </body>
 </html>
