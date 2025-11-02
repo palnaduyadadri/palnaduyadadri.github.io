@@ -391,6 +391,8 @@
   let players = [];
   let currentIndex = 0;
   let autoPlayTimer = null;
+  let endedVideos = new Set();
+  let isMobile = window.innerWidth <= 768;
 
   // Create player containers
   videoIds.forEach((id, i) => {
@@ -414,10 +416,14 @@
         },
         events: { 
           onStateChange: (e) => { 
-            // When video ends, move to next one
+            const playerIndex = i;
+            
+            // When video ends, mark it as completed
             if (e.data === YT.PlayerState.ENDED) {
-              nextVideo(); 
+              endedVideos.add(playerIndex);
+              checkAndAdvanceCarousel();
             }
+            
             // When video is playing, clear any autoplay timer
             if (e.data === YT.PlayerState.PLAYING) {
               clearInterval(autoPlayTimer);
@@ -431,10 +437,39 @@
     setTimeout(updateCarousel, 1000);
   }
 
-  function updateCarousel() {
-    const isMobile = window.innerWidth <= 768;
+  function checkAndAdvanceCarousel() {
+    isMobile = window.innerWidth <= 768;
     const perView = isMobile ? 1 : 3;
-    const offset = isMobile ? 0 : 1;
+    
+    if (isMobile) {
+      // Mobile: Move to next video when current ends
+      setTimeout(() => {
+        nextVideo();
+      }, 1000);
+    } else {
+      // Desktop: Check if all 3 visible videos have ended
+      const visibleIndices = [];
+      for (let i = 0; i < perView; i++) {
+        visibleIndices.push(currentIndex + i);
+      }
+      
+      const allEnded = visibleIndices.every(index => endedVideos.has(index));
+      
+      if (allEnded) {
+        // Reset ended status for these videos
+        visibleIndices.forEach(index => endedVideos.delete(index));
+        
+        // Move to next set of videos
+        setTimeout(() => {
+          nextVideo();
+        }, 1000);
+      }
+    }
+  }
+
+  function updateCarousel() {
+    isMobile = window.innerWidth <= 768;
+    const perView = isMobile ? 1 : 3;
     const translateX = -(currentIndex * (100 / perView));
     wrapper.style.transform = `translateX(${translateX}%)`;
 
@@ -449,36 +484,32 @@
       }
     }
 
-    // Play the center video (for desktop) or the only video (for mobile)
-    const activePlayerIndex = currentIndex + offset;
-    if (players[activePlayerIndex]) {
-      players.forEach((p, index) => {
-        if (p.pauseVideo && index !== activePlayerIndex) {
-          p.pauseVideo();
-        }
-      });
-      // Auto-play the active video
-      setTimeout(() => {
-        if (players[activePlayerIndex] && players[activePlayerIndex].playVideo) {
-          players[activePlayerIndex].playVideo();
-        }
-      }, 500);
+    // Play all visible videos
+    for (let i = 0; i < perView; i++) {
+      const playerIndex = currentIndex + i;
+      if (players[playerIndex]) {
+        setTimeout(() => {
+          if (players[playerIndex] && players[playerIndex].playVideo) {
+            players[playerIndex].playVideo();
+          }
+        }, 500 + (i * 200)); // Stagger start slightly for desktop
+      }
     }
   }
 
   function nextVideo() {
-    const isMobile = window.innerWidth <= 768;
+    isMobile = window.innerWidth <= 768;
     const perView = isMobile ? 1 : 3;
     const maxIndex = videoIds.length - perView;
-    currentIndex = (currentIndex + 1) % (maxIndex + 1);
+    currentIndex = (currentIndex + perView) % (maxIndex + 1);
     updateCarousel();
   }
 
   function prevVideo() {
-    const isMobile = window.innerWidth <= 768;
+    isMobile = window.innerWidth <= 768;
     const perView = isMobile ? 1 : 3;
     const maxIndex = videoIds.length - perView;
-    currentIndex = (currentIndex - 1 + (maxIndex + 1)) % (maxIndex + 1);
+    currentIndex = (currentIndex - perView + (maxIndex + 1)) % (maxIndex + 1);
     updateCarousel();
   }
 
@@ -490,6 +521,12 @@
   document.querySelector(".prev-btn").addEventListener("click", () => {
     clearInterval(autoPlayTimer);
     prevVideo();
+  });
+
+  // Handle window resize
+  window.addEventListener('resize', () => {
+    isMobile = window.innerWidth <= 768;
+    updateCarousel();
   });
 
   // Fallback autoplay in case video doesn't auto-advance
