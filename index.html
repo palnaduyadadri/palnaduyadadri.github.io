@@ -98,6 +98,18 @@
       position: relative;
     }
 
+    .ad-notice {
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      color: var(--gold);
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      z-index: 5;
+    }
+
     .nav-btn {
       position: absolute;
       top: 50%;
@@ -230,10 +242,14 @@
     <div class="shorts-wrapper" id="shortsWrapper">
       <!-- Two permanent short containers -->
       <div class="short" id="short1">
-        <div class="player-container" id="player-1"></div>
+        <div class="player-container" id="player-1">
+          <div class="ad-notice">Ads support content creators</div>
+        </div>
       </div>
       <div class="short" id="short2">
-        <div class="player-container" id="player-2"></div>
+        <div class="player-container" id="player-2">
+          <div class="ad-notice">Ads support content creators</div>
+        </div>
       </div>
     </div>
     <button class="nav-btn next-btn">&#10095;</button>
@@ -390,7 +406,7 @@
   let autoPlayTimer = null;
 
   function onYouTubeIframeAPIReady() {
-    // Initialize both players with optimized settings
+    // Initialize both players with compliant settings
     players[1] = new YT.Player(`player-1`, {
       videoId: videoIds[currentVideoIndexes[0]],
       playerVars: { 
@@ -400,7 +416,7 @@
         rel: 0, 
         modestbranding: 1,
         playsinline: 1,
-        iv_load_policy: 3 // Reduces annotations
+        iv_load_policy: 3 // Reduces annotations only
       },
       events: { 
         onStateChange: (e) => { 
@@ -420,7 +436,7 @@
         rel: 0, 
         modestbranding: 1,
         playsinline: 1,
-        iv_load_policy: 3 // Reduces annotations
+        iv_load_policy: 3 // Reduces annotations only
       },
       events: { 
         onStateChange: (e) => { 
