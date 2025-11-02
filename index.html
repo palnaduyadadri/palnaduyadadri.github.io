@@ -378,20 +378,19 @@
     "Le_ImO8ltMs", "wMOSYUzzvcM", "jBc9uof4vUc", "-nAvWjf2KDY",
     "LPsyDZAyfdk", "57nd_F-4MRI", "JCFfCU_6w2Q", "J7kZuITRqy0", "tZw2dh2wiNE"
     // Add your remaining 91 YouTube Short IDs here
-    // Example: "videoId1", "videoId2", "videoId3", ... up to 100 total
   ];
 
   // Fill with placeholder IDs if you don't have 100 yet
   while (videoIds.length < 100) {
-    videoIds.push("JCFfCU_6w2Q"); // Using one of your existing IDs as placeholder
+    videoIds.push("JCFfCU_6w2Q");
   }
 
   let players = [];
-  let currentVideoIndexes = [0, 1]; // Track current video indexes for both positions
+  let currentVideoIndexes = [0, 1];
   let autoPlayTimer = null;
 
   function onYouTubeIframeAPIReady() {
-    // Initialize both players
+    // Initialize both players with optimized settings
     players[1] = new YT.Player(`player-1`, {
       videoId: videoIds[currentVideoIndexes[0]],
       playerVars: { 
@@ -400,11 +399,11 @@
         mute: 1, 
         rel: 0, 
         modestbranding: 1,
-        playsinline: 1
+        playsinline: 1,
+        iv_load_policy: 3 // Reduces annotations
       },
       events: { 
         onStateChange: (e) => { 
-          // When video ends, load next video in this position
           if (e.data === YT.PlayerState.ENDED) {
             loadNextVideo(0);
           }
@@ -420,11 +419,11 @@
         mute: 1, 
         rel: 0, 
         modestbranding: 1,
-        playsinline: 1
+        playsinline: 1,
+        iv_load_policy: 3 // Reduces annotations
       },
       events: { 
         onStateChange: (e) => { 
-          // When video ends, load next video in this position
           if (e.data === YT.PlayerState.ENDED) {
             loadNextVideo(1);
           }
@@ -434,23 +433,28 @@
   }
 
   function loadNextVideo(position) {
-    // Calculate next video index for this position
     currentVideoIndexes[position] = (currentVideoIndexes[position] + 2) % videoIds.length;
     
-    // Load and play the next video
     if (players[position + 1]) {
-      players[position + 1].loadVideoById(videoIds[currentVideoIndexes[position]]);
+      players[position + 1].loadVideoById({
+        videoId: videoIds[currentVideoIndexes[position]],
+        playerVars: {
+          autoplay: 1,
+          mute: 1,
+          rel: 0,
+          modestbranding: 1,
+          iv_load_policy: 3
+        }
+      });
     }
   }
 
   function nextSet() {
-    // Manually advance both videos to next set
     loadNextVideo(0);
     loadNextVideo(1);
   }
 
   function prevSet() {
-    // Manually go back to previous set
     currentVideoIndexes[0] = (currentVideoIndexes[0] - 2 + videoIds.length) % videoIds.length;
     currentVideoIndexes[1] = (currentVideoIndexes[1] - 2 + videoIds.length) % videoIds.length;
     
@@ -472,23 +476,18 @@
     prevSet();
   });
 
-  // Fallback autoplay in case videos don't auto-advance
   function startFallbackAutoplay() {
     clearInterval(autoPlayTimer);
-    // Set a longer timeout as fallback (60 seconds)
     autoPlayTimer = setInterval(nextSet, 60000);
   }
 
-  // Start fallback autoplay
   startFallbackAutoplay();
 
-  // Pause fallback autoplay when user interacts with carousel
   const wrapper = document.getElementById("shortsWrapper");
   wrapper.addEventListener('click', () => {
     clearInterval(autoPlayTimer);
   });
 
-  // Restart fallback autoplay when user stops interacting
   wrapper.addEventListener('mouseleave', startFallbackAutoplay);
 </script>
 </body>
