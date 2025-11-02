@@ -383,13 +383,14 @@
   ];
 
   // Fill with placeholder IDs if you don't have 100 yet
-  while (videoIds.length < 5) {
+  while (videoIds.length < 100) {
     videoIds.push("JCFfCU_6w2Q"); // Using one of your existing IDs as placeholder
   }
 
   const wrapper = document.getElementById("shortsWrapper");
   let players = [];
   let currentIndex = 0;
+  let autoPlayTimer = null;
 
   // Create player containers
   videoIds.forEach((id, i) => {
@@ -413,8 +414,13 @@
         },
         events: { 
           onStateChange: (e) => { 
+            // When video ends, move to next one
             if (e.data === YT.PlayerState.ENDED) {
               nextVideo(); 
+            }
+            // When video is playing, clear any autoplay timer
+            if (e.data === YT.PlayerState.PLAYING) {
+              clearInterval(autoPlayTimer);
             }
           } 
         }
@@ -423,7 +429,6 @@
     
     // Initialize carousel after players are ready
     setTimeout(updateCarousel, 1000);
-    startAutoPlay();
   }
 
   function updateCarousel() {
@@ -477,26 +482,33 @@
     updateCarousel();
   }
 
-  document.querySelector(".next-btn").addEventListener("click", nextVideo);
-  document.querySelector(".prev-btn").addEventListener("click", prevVideo);
-
-  let autoPlayTimer;
-  function startAutoPlay() {
+  document.querySelector(".next-btn").addEventListener("click", () => {
     clearInterval(autoPlayTimer);
-    autoPlayTimer = setInterval(nextVideo, 10000); // Change video every 10 seconds
+    nextVideo();
+  });
+  
+  document.querySelector(".prev-btn").addEventListener("click", () => {
+    clearInterval(autoPlayTimer);
+    prevVideo();
+  });
+
+  // Fallback autoplay in case video doesn't auto-advance
+  function startFallbackAutoplay() {
+    clearInterval(autoPlayTimer);
+    // Set a longer timeout as fallback (60 seconds)
+    autoPlayTimer = setInterval(nextVideo, 60000);
   }
 
-  function stopAutoPlay() {
+  // Start fallback autoplay
+  startFallbackAutoplay();
+
+  // Pause fallback autoplay when user interacts with carousel
+  wrapper.addEventListener('click', () => {
     clearInterval(autoPlayTimer);
-  }
+  });
 
-  // Pause autoplay when user interacts with carousel
-  wrapper.addEventListener('click', stopAutoPlay);
-  document.querySelector('.prev-btn').addEventListener('click', stopAutoPlay);
-  document.querySelector('.next-btn').addEventListener('click', stopAutoPlay);
-
-  // Restart autoplay when user stops interacting
-  wrapper.addEventListener('mouseleave', startAutoPlay);
+  // Restart fallback autoplay when user stops interacting
+  wrapper.addEventListener('mouseleave', startFallbackAutoplay);
 </script>
 </body>
 </html>
